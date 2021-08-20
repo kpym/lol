@@ -93,9 +93,9 @@ func (y *ytotech) BuildPDF(req builder.Request) ([]byte, error) {
 		var comperr compilationError
 		err = json.Unmarshal(respBody, &comperr)
 		if err != nil {
-			return nil, fmt.Errorf("Laton compilation error (status code %d). The answer is not a valid json:\n%s\n", resp.StatusCode, respBody)
+			return nil, fmt.Errorf("LaTeX-on-HTTP compilation error (status code %d). The answer is not a valid json:\n%s\n", resp.StatusCode, respBody)
 		}
-		return nil, fmt.Errorf("Laton compilation error (status code %d):\n%s\n", resp.StatusCode, comperr.Logs)
+		return nil, fmt.Errorf("LaTeX-on-HTTP compilation error (status code %d):\n%s\n", resp.StatusCode, comperr.Logs)
 	}
 
 	// respBody contains the resulting pdf
