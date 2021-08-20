@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"time"
 
@@ -55,7 +54,7 @@ func main() {
 	// write the pdf
 	if params.Output != "" {
 		params.Log.Infof("Write %s.\n", params.Output)
-		err = ioutil.WriteFile(params.Output, pdf, 0644)
+		err = os.WriteFile(params.Output, pdf, 0644)
 		check(params.Log, err)
 	} else {
 		params.Log.Infof("Write to stdout.\n")

@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"path"
 	"path/filepath"
@@ -29,12 +29,12 @@ const (
 )
 
 // The version that is set by goreleaser
-var Version = "dev"
+var version = "dev"
 
 // Help displays usage message if -h/--help flag is set or in case of falg error.
 func Help() {
 	var out = os.Stderr
-	fmt.Fprintf(out, "lol (version: %s)\n", Version)
+	fmt.Fprintf(out, "lol (version: %s)\n", version)
 	fmt.Fprintln(out, "LaTeX online compiler. More info at www.github.com/kpym/lol.")
 	fmt.Fprintln(out, "\nAvailable options:")
 	pflag.PrintDefaults()
@@ -197,10 +197,10 @@ func GetFiles(params builder.Parameters) (builder.Files, error) {
 	// get the main file
 	if params.PipedMain {
 		params.Log.Debug("Read the main file from stdin.")
-		filedata, err = ioutil.ReadAll(os.Stdin)
+		filedata, err = io.ReadAll(os.Stdin)
 	} else {
 		params.Log.Debugf("Read the main file from %s.\n", params.Main)
-		filedata, err = ioutil.ReadFile(params.Main)
+		filedata, err = os.ReadFile(params.Main)
 	}
 	files[params.Main] = filedata
 	if err != nil {
@@ -224,7 +224,7 @@ func GetFiles(params builder.Parameters) (builder.Files, error) {
 				continue
 			}
 			// read the file, or skipt it if not readable
-			filedata, err = ioutil.ReadFile(fname)
+			filedata, err = os.ReadFile(fname)
 			if err == nil {
 				files[uname] = filedata
 				params.Log.Debugf("File %s (%d bytes) added to the list.", uname, len(filedata))

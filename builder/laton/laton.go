@@ -14,7 +14,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -125,7 +125,7 @@ func (y *laton) BuildPDF(req builder.Request) ([]byte, error) {
 	defer resp.Body.Close()
 
 	// read pdf or error from response
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("Problem reading response: %w\n", err)
 	}
