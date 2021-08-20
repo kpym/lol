@@ -21,12 +21,9 @@ const (
 
 // Logger is a very basic log interface.
 type Logger interface {
-	Error(msg string)
-	Errorf(msg string, a ...interface{})
-	Info(msg string)
-	Infof(msg string, a ...interface{})
-	Debug(msg string)
-	Debugf(msg string, a ...interface{})
+	Error(msg string, a ...interface{})
+	Info(msg string, a ...interface{})
+	Debug(msg string, a ...interface{})
 }
 
 // log type variable satisfy Logger interface.
@@ -101,50 +98,26 @@ var (
 	debugcolor = color.New(color.FgCyan, color.Bold).SprintFunc()
 )
 
+// printLog prints to l.out if level is high enough
+// level and tag specify the type (INFO, ERROR, DEBUG).
+func printLog(l *log, level Level, tag, msg string, a ...interface{}) {
+	if l.level > level {
+		return
+	}
+	fmt.Fprintln(l.out, tag, fmt.Sprintf(msgcolor(msg), a...))
+}
+
 // Error method for Logger interface.
-func (l *log) Error(msg string) {
-	if l.level > ErrorLevel {
-		return
-	}
-	fmt.Fprintln(l.out, errcolor("ERROR:"), msgcolor(msg))
-}
-
-// Errorf method for Logger interface.
-func (l *log) Errorf(msg string, a ...interface{}) {
-	if l.level > ErrorLevel {
-		return
-	}
-	fmt.Fprintf(l.out, errcolor("ERROR:")+" "+msgcolor(msg), a...)
-}
-
-// Info method for Logger interface.
-func (l *log) Info(msg string) {
-	if l.level > InfoLevel {
-		return
-	}
-	fmt.Fprintln(l.out, infocolor("INFO:"), msgcolor(msg))
+func (l *log) Error(msg string, a ...interface{}) {
+	printLog(l, ErrorLevel, errcolor("ERROR:"), msg, a...)
 }
 
 // Infof method for Logger interface.
-func (l *log) Infof(msg string, a ...interface{}) {
-	if l.level > InfoLevel {
-		return
-	}
-	fmt.Fprintf(l.out, infocolor("INFO:")+" "+msgcolor(msg), a...)
+func (l *log) Info(msg string, a ...interface{}) {
+	printLog(l, InfoLevel, infocolor("INFO:"), msg, a...)
 }
 
 // Debug method for Logger interface.
-func (l *log) Debug(msg string) {
-	if l.level > DebugLevel {
-		return
-	}
-	fmt.Fprintln(l.out, debugcolor("DEBUG:"), msgcolor(msg))
-}
-
-// Debugf method for Logger interface.
-func (l *log) Debugf(msg string, a ...interface{}) {
-	if l.level > DebugLevel {
-		return
-	}
-	fmt.Fprintf(l.out, debugcolor("DEBUG:")+" "+msgcolor(msg), a...)
+func (l *log) Debug(msg string, a ...interface{}) {
+	printLog(l, DebugLevel, debugcolor("DEBUG:"), msg, a...)
 }

@@ -153,7 +153,7 @@ func GetParameters(params *builder.Parameters) error {
 	fi, err := os.Stdin.Stat()
 	if err == nil {
 		params.PipedMain = ((fi.Mode() & os.ModeCharDevice) == 0) && (fi.Mode()&os.ModeNamedPipe != 0)
-		params.Log.Debugf("Piped input: %v, Stdin mode: %v.\n", params.PipedMain, fi.Mode())
+		params.Log.Debug("Piped input: %v, Stdin mode: %v.", params.PipedMain, fi.Mode())
 	}
 	// Get the patterns
 	params.Patterns = append(pflag.Args(), params.Patterns...)
@@ -199,7 +199,7 @@ func GetFiles(params builder.Parameters) (builder.Files, error) {
 		params.Log.Debug("Read the main file from stdin.")
 		filedata, err = io.ReadAll(os.Stdin)
 	} else {
-		params.Log.Debugf("Read the main file from %s.\n", params.Main)
+		params.Log.Debug("Read the main file from %s.", params.Main)
 		filedata, err = os.ReadFile(params.Main)
 	}
 	files[params.Main] = filedata
@@ -227,9 +227,9 @@ func GetFiles(params builder.Parameters) (builder.Files, error) {
 			filedata, err = os.ReadFile(fname)
 			if err == nil {
 				files[uname] = filedata
-				params.Log.Debugf("File %s (%d bytes) added to the list.", uname, len(filedata))
+				params.Log.Debug("File %s (%d bytes) added to the list.", uname, len(filedata))
 			} else {
-				params.Log.Debugf("Probleam reading support file (we skip it): %s.", fname)
+				params.Log.Debug("Probleam reading support file (we skip it): %s.", fname)
 			}
 		}
 	}

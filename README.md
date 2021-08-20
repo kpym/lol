@@ -39,7 +39,26 @@ Examples:
 > lol main.tex personal.sty images/img*.pdf
 > cat main.tex | lol -c lualatex -o out.pdf
 ```
+## Configuration
+
+As `lol` use [viper](https://github.com/spf13/viper) the parameters can be provided not only by flags but also be read from config file (`lol.yaml`, `lol.toml`, `lol.json`...) or/and from environment variables (starting with `LOL_`).
+
+### Using config file
+
+You can provide all default values for flags in a config `lol` file in the current folder.
+For example if your project needs `xelatex` and use `imgs/logo.png` you can save the following `lol.yaml` in the current folder
+```yaml
+Compiler: xelatex
+Patterns:
+  - imgs/logo.png
+```
+
+### Using environment variables
+
+If you wan to provide global default values you can set an environment variable.
+For example if you want by default to use `ytotech` service you can set `LOL_SERVICE=ytotech`.
+
 
 ## License
 
-[MIT](LICENSE) for this code _(but all used libraries may have different licence)_.
+[MIT](LICENSE) for this code _(but all used libraries may have different licences)_.

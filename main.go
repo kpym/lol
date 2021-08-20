@@ -45,19 +45,19 @@ func main() {
 		compiler = laton.NewBuilder()
 	}
 	req := builder.Request{Parameters: params, Files: files}
-	params.Log.Infof("Send request with the following parameters:\n%s\n", req.String())
+	params.Log.Info("Send request with the following parameters:\n%s", req.String())
 	sendtime := time.Now()
 	pdf, err := compiler.BuildPDF(req)
-	params.Log.Infof("Answer received in %1.1f seconds.\n", time.Since(sendtime).Seconds())
+	params.Log.Info("Answer received in %1.1f seconds.", time.Since(sendtime).Seconds())
 	check(params.Log, err)
 
 	// write the pdf
 	if params.Output != "" {
-		params.Log.Infof("Write %s.\n", params.Output)
+		params.Log.Info("Write %s.", params.Output)
 		err = os.WriteFile(params.Output, pdf, 0644)
 		check(params.Log, err)
 	} else {
-		params.Log.Infof("Write to stdout.\n")
+		params.Log.Info("Write to stdout.")
 		_, err = os.Stdout.Write(pdf)
 		check(params.Log, err)
 	}
