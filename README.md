@@ -39,6 +39,32 @@ Examples:
 > lol main.tex personal.sty images/img*.pdf
 > cat main.tex | lol -c lualatex -o out.pdf
 ```
+
+## Installation
+
+### Precompiled executables
+
+You can download the executable for your platform from the [Releases](https://github.com/kpym/lol/releases).
+
+### Compile it yourself
+
+#### Using Go
+
+```
+$ go get github.com/kpym/lol
+```
+
+#### Using goreleaser
+
+After cloning this repo you can compile the sources with [goreleaser](https://github.com/goreleaser/goreleaser/) for all available platforms:
+
+```
+git clone https://github.com/kpym/lol.git .
+goreleaser --snapshot --skip-publish --rm-dist
+```
+
+You will find the resulting binaries in the `dist/` sub-folder.
+
 ## Configuration
 
 As `lol` use [viper](https://github.com/spf13/viper) the parameters can be provided not only by flags but also be read from config file (`lol.yaml`, `lol.toml`, `lol.json`...) or/and from environment variables (starting with `LOL_`).
