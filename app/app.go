@@ -123,7 +123,9 @@ func GetParameters(params *builder.Parameters) error {
 	// the default writer is os.Stdout (color.Output)
 	params.Log = log.New(log.WithLevel(level), log.WithColor())
 
-	// Chack if the service support the requested options.
+	// normalise the service name
+	params.Service = strings.ToLower(params.Service)
+	// chack if the service support the requested options
 	if !stringIn(params.Service, "laton", "ytotech", "") {
 		return fmt.Errorf("Unknown %s service.", params.Service)
 	}
@@ -155,7 +157,7 @@ func GetParameters(params *builder.Parameters) error {
 		params.PipedMain = ((fi.Mode() & os.ModeCharDevice) == 0) && (fi.Mode()&os.ModeNamedPipe != 0)
 		params.Log.Debug("Piped input: %v, Stdin mode: %v.", params.PipedMain, fi.Mode())
 	}
-	// Get the patterns
+	// get the patterns
 	params.Patterns = append(pflag.Args(), params.Patterns...)
 	if len(params.Patterns) == 0 && params.Main == "" && !params.PipedMain {
 		return fmt.Errorf("Missing file to compile.")

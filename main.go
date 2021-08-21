@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -39,10 +40,13 @@ func main() {
 
 	// build the pdf
 	var compiler builder.Builder
-	if params.Service == "ytotech" {
+	switch params.Service {
+	case "ytotech":
 		compiler = ytotech.NewBuilder()
-	} else {
+	case "laton":
 		compiler = laton.NewBuilder()
+	default:
+		check(params.Log, fmt.Errorf("Unknown service %s", params.Service))
 	}
 	req := builder.Request{Parameters: params, Files: files}
 	params.Log.Info("Send request with the following parameters:\n%s", req.String())

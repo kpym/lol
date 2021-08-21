@@ -4,11 +4,12 @@ import (
 	"testing"
 
 	"github.com/kpym/lol/builder"
+	"github.com/kpym/lol/log"
 )
 
 func TestGetFiles(t *testing.T) {
 	// no Main, no Patterns
-	params := builder.Parameters{}
+	params := builder.Parameters{Log: log.New()}
 	files, err := GetFiles(params)
 
 	// Check for error
