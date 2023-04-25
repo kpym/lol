@@ -1,12 +1,7 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
 project_name: lol
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod download
-    # you may remove this if you don't need go generate
-    - go generate ./...
 builds:
   - env:
       - CGO_ENABLED=0
@@ -17,12 +12,18 @@ builds:
     ldflags:
      - -s -w -X github.com/kpym/lol/app.version={{.Version}}
 archives:
-  - replacements:
-      darwin: MacOS
-      linux: Linux
-      windows: Windows
-      386: 32bit
-      amd64: 64bit
+  -
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- if eq .Os "darwin" }}MacOS
+      {{- else if eq .Os "linux" }}Linux
+      {{- else if eq .Os "windows" }}Windows
+      {{- else }}{{ .Os }}
+      {{- end }}_
+      {{- if eq .Arch "amd64" }}64bit
+      {{- else if eq .Arch "386" }}32bit
+      {{- else }}{{ .Arch }}
+      {{- end }}
     format_overrides:
       - goos: windows
         format: zip
