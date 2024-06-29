@@ -1,19 +1,21 @@
 // ytotech package provides a builder.Builder interface to latex.ytotech.com service.
 // The request send to latex.ytotech.com is a single json that looks like this
 // ```json
-// {
-//     "compiler": "pdflatex",
-//     "resources": [
-//         {
-//             "main": true,
-//             "file": "...base64 encoded file..."
-//         },
-//         {
-//             "path": "logo.png",
-//             "file": "...base64 encoded file..."
-//         }
-//     ]
-// }
+//
+//	{
+//	    "compiler": "pdflatex",
+//	    "resources": [
+//	        {
+//	            "main": true,
+//	            "file": "...base64 encoded file..."
+//	        },
+//	        {
+//	            "path": "logo.png",
+//	            "file": "...base64 encoded file..."
+//	        }
+//	    ]
+//	}
+//
 // ```
 package ytotech
 
@@ -77,7 +79,7 @@ func (y *ytotech) BuildPDF(req builder.Request) ([]byte, error) {
 	// prepare the json to submit
 	body := strings.NewReader(reqToJson(req))
 	// send comile request
-	resp, err := http.Post("https://latex.ytotech.com/builds/sync", "application/json", body)
+	resp, err := http.Post(req.Parameters.Url+"/builds/sync", "application/json", body)
 	if err != nil {
 		return nil, err
 	}

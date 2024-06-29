@@ -50,6 +50,7 @@ func Help() {
 // InitFlag define the CLI flags.
 func InitFlags() {
 	pflag.StringP("service", "s", "", "Service can be laton or ytotex.")
+	pflag.String("url", "", "The base url for the service. If empty, the default URL is used.")
 	pflag.StringP("compiler", "c", "pdflatex", "One of pdflatex,xelatex or lualatex.\nFor ytotex platex, uplatex and context are also available.\n")
 	pflag.BoolP("force", "f", false, "Do not use the laton cache. Force compile. Ignored by ytotech.")
 	pflag.StringP("biblio", "b", "", "Can be bibtex or biber for ytotex. Not used by laton.")
@@ -150,6 +151,14 @@ func GetParameters(params *builder.Parameters) error {
 	if params.Service == "" {
 		// TODO : choose the fastest ?
 		params.Service = "laton"
+	}
+	if params.Url == "" {
+		switch params.Service {
+		case "laton":
+			params.Url = "https://texlive2020.latexonline.cc"
+		case "ytotech":
+			params.Url = "https://latex.ytotech.com"
+		}
 	}
 	// check if the input is piped
 	fi, err := os.Stdin.Stat()

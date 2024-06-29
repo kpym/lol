@@ -33,6 +33,7 @@ func (files *Files) String() string {
 type Parameters struct {
 	Log       log.Logger
 	Service   string
+	Url       string
 	Compiler  string
 	Force     bool
 	Biblio    string
@@ -46,6 +47,7 @@ type Parameters struct {
 func (p *Parameters) String() string {
 	w := new(strings.Builder)
 	fmt.Fprintln(w, "Service:  ", p.Service)
+	fmt.Fprintln(w, "Url:  ", p.Url)
 	fmt.Fprintln(w, "Compiler: ", p.Compiler)
 	if p.Force {
 		fmt.Fprintln(w, "Force:    ", p.Force)

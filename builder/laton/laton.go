@@ -95,7 +95,7 @@ func newTarRequest(params builder.Parameters, tardata []byte) (*http.Request, er
 	urlParams.Add("command", params.Compiler)
 
 	// return the request
-	httpReq, err := http.NewRequest("POST", "https://texlive2020.latexonline.cc/data?"+urlParams.Encode(), body)
+	httpReq, err := http.NewRequest("POST", params.Url+"/data?"+urlParams.Encode(), body)
 	if err != nil {
 		return nil, err
 	}
