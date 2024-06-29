@@ -52,7 +52,7 @@ You can download the executable for your platform from the [Releases](https://gi
 #### Using Go
 
 ```
-$ go get github.com/kpym/lol
+$ go install github.com/kpym/lol@latest
 ```
 
 #### Using goreleaser
